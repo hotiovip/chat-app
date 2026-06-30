@@ -20,7 +20,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        // The endpoint clients use to sign up for the WebSocket connection
-        registry.addEndpoint("/ws-chat").withSockJS();
+        registry.addEndpoint("/ws-chat")
+                .setAllowedOrigins("https://real-rp-backend.de", "http://real-rp-backend.de")
+                .withSockJS();
     }
 }

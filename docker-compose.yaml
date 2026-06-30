@@ -19,6 +19,7 @@ services:
   # --- Spring Boot Application Service ---
   app:
     container_name: chat-app-backend
+    image: hotiovip/chat_app:latest
     build:
       context: .
       dockerfile: Dockerfile

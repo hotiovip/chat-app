@@ -20,12 +20,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // If you are using plain HTML instead of Thymeleaf, keep this disabled:
-                //.csrf(csrf -> csrf.disable())
+                // Allow iframe frames for SockJS transport options
+                .headers(headers -> headers
+                        .frameOptions(frame -> frame.sameOrigin())
+                )
 
                 .authorizeHttpRequests(auth -> auth
-                        // VERY IMPORTANT: Allow access to static assets (CSS, JS) if you move them to external files
-                        .requestMatchers("/css/**", "/js/**").permitAll()
+                        // Allow access to static assets (CSS, JS) if you move them to external files
+                        .requestMatchers("/css/**", "/js/**", "/ws-chat/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
