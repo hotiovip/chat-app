@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Chat App</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body class="w3-light-gray main-wrapper">
+
+<div class="w3-bar w3-blue w3-card navbar mobile-nav-fix">
+    <button class="w3-bar-item w3-button w3-hide-large w3-hide-medium nav-touch-target"
+            onclick="toggleSidebar()"
+            style="font-size: 24px !important; padding: 12px 20px !important;">
+        ☰
+    </button>
+
+    <h1 class="w3-bar-item w3-large brand-title" style="margin:0; padding: 18px 10px;">Chat App</h1>
+
+    <div class="w3-bar-item w3-right" style="padding-right: 8px;">
+        <form th:action="@{/logout}" method="post" style="display: inline;">
+            <button type="submit" class="w3-button w3-red w3-round nav-touch-target"
+                    style="padding: 10px 16px !important; font-weight: bold;">
+                Log Out
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="chat-container">
+    <div class="sidebar w3-sidebar w3-bar-block w3-collapse w3-white w3-border-right" id="mySidebar">
+        <div class="w3-container w3-padding">
+            <h3 class="w3-text-gray w3-medium">Chats</h3>
+        </div>
+
+        <ul class="w3-ul w3-hoverable">
+            <li th:each="room : ${rooms}"
+                th:classappend="${activeRoom != null && activeRoom.id == room.id} ? 'w3-blue' : ''"
+                class="w3-hover-light-gray" style="padding:0;">
+                <a th:href="@{/(roomId=${room.id})}"
+                   th:text="${room.name}"
+                   style="display:block; padding: 12px; text-decoration: none; color: inherit;">
+                    # room-name
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="chat-window">
+        <div class="w3-container w3-white w3-border-bottom w3-padding">
+            <h4 style="margin:0;">General</h4>
+        </div>
+
+        <div class="messages-area w3-container" id="messagesArea">
+
+            <div th:if="${activeRoom == null}" class="w3-center w3-text-gray" style="margin-top: 50px;">
+                <p>Please select a channel from the sidebar to start chatting!</p>
+            </div>
+
+            <div th:if="${activeRoom != null}" th:each="msg : ${messages}"
+                 class="message-row"
+                 th:classappend="${#authentication.name == msg.sender.username} ? 'sent' : 'received'">
+
+                <div class="message-box"
+                     th:classappend="${#authentication.name == msg.sender.username} ? 'w3-blue' : 'w3-light-gray'">
+
+                <span th:if="${#authentication.name != msg.sender.username}"
+                      class="username w3-text-blue"
+                      th:text="${msg.sender.username}">user</span>
+
+                    <p class="text" th:text="${msg.content}">Message text goes here...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-container w3-white w3-border-top w3-padding input-bar">
+            <form id="messageForm" class="w3-row-padding" style="width: 100%; margin: 0; padding: 0;">
+                <input type="hidden" name="roomId" th:if="${activeRoom != null}" th:value="${activeRoom.id}">
+
+                <div class="w3-col m10 s9" style="padding-left: 0;">
+                    <input class="w3-input w3-border w3-round" type="text" name="content" id="messageInput" placeholder="Type a message..." autocomplete="off" required>
+                </div>
+                <div class="w3-col m2 s3" style="padding-right: 0;">
+                    <button class="w3-button w3-blue w3-round w3-block" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="chatConfig"
+     th:data-room-id="${activeRoom != null ? activeRoom.id : ''}"
+     th:data-username="${#authentication.name}"
+     style="display: none;"></div>
+
+<script th:src="@{/js/index.js(v=1.3)}"></script>
+
+</body>
+</html>

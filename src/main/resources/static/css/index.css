@@ -1,0 +1,85 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.navbar {
+    height: 55px;
+    z-index: 10;
+}
+
+.chat-container {
+    display: flex;
+    flex: 1;
+    height: calc(100vh - 55px);
+    position: relative;
+}
+
+/* Desktop: Fix sidebar width. Mobile: W3.CSS takes care of the toggle overlay */
+.sidebar {
+    width: 260px;
+    height: calc(100vh - 55px) !important;
+    position: relative;
+    z-index: 5;
+}
+
+/* Chat Window Layout Rules */
+.chat-window {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+    /* Desktop Offset: Pushes the chat window to the right of the desktop sidebar */
+    margin-left: 260px;
+}
+
+/* RESPONSIVE BREAKPOINT FOR MOBILE */
+@media (max-width: 992px) {
+    .sidebar {
+        position: fixed !important; /* Overlays on top of the chat area */
+        top: 55px;
+        left: 0;
+        display: none; /* Controlled by JavaScript toggle */
+    }
+    .chat-window {
+        margin-left: 0; /* Uses full screen width on mobile */
+    }
+}
+
+.messages-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.message-row { display: flex; width: 100%; }
+.message-row.received { justify-content: flex-start; }
+.message-row.sent { justify-content: flex-end; }
+
+.message-box {
+    max-width: 75%;
+    padding: 8px 14px;
+    border-radius: 12px;
+    word-wrap: break-word;
+}
+.message-row.received .message-box { border-top-left-radius: 2px; }
+.message-row.sent .message-box { border-top-right-radius: 2px; }
+.message-box p { margin: 5px 0 0 0; }
+.username { font-size: 0.85em; font-weight: bold; display: block; }
+
+.input-bar {
+    height: 70px;
+    display: flex;
+    align-items: center;
+}
