@@ -2,6 +2,11 @@
 
 A lightweight, high-performance, responsive web application featuring real-time multi-room messaging, persistent data storage, and containerized deployment. Built using **Spring Boot 4**, **Java 25**, and **PostgreSQL**, this application utilizes persistent WebSockets (STOMP over SockJS) to synchronize live messaging across distinct user sessions instantly without page reloads.
 
+Test it!: https://real-rp-backend.de
+<br> Credentials are:
+<br> username: test
+<br> password: test
+
 ---
 
 ## Key Features
