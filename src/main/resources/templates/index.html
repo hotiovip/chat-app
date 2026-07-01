@@ -55,23 +55,25 @@
         </div>
 
         <div class="messages-area w3-container" id="messagesArea">
-
             <div th:if="${activeRoom == null}" class="w3-center w3-text-gray" style="margin-top: 50px;">
                 <p>Please select a channel from the sidebar to start chatting!</p>
             </div>
 
-            <div th:if="${activeRoom != null}" th:each="msg : ${messages}"
-                 class="message-row"
-                 th:classappend="${#authentication.name == msg.sender.username} ? 'sent' : 'received'">
+            <div th:if="${activeRoom != null}"
+                 th:each="msg, iterStat : ${messages}"
+                 style="display: contents;"> <div th:if="${iterStat.first || #temporals.format(msg.getTimestamp(), 'yyyy-MM-dd') != #temporals.format(messages[iterStat.index - 1].getTimestamp(), 'yyyy-MM-dd')}"
+                                                  class="date-divider">
+                <span th:text="${#temporals.format(msg.getTimestamp(), 'MMMM d, yyyy')}">Today</span>
+            </div>
 
-                <div class="message-box"
-                     th:classappend="${#authentication.name == msg.sender.username} ? 'w3-blue' : 'w3-light-gray'">
-
-                <span th:if="${#authentication.name != msg.sender.username}"
-                      class="username w3-text-blue"
-                      th:text="${msg.sender.username}">user</span>
-
-                    <p class="text" th:text="${msg.content}">Message text goes here...</p>
+                <div class="message-row"
+                     th:classappend="${#authentication.name == msg.sender.username} ? 'sent' : 'received'">
+                    <div class="message-box" th:classappend="${#authentication.name == msg.sender.username} ? 'w3-blue' : 'w3-light-gray'">
+                        <span th:if="${#authentication.name != msg.sender.username}" class="username w3-text-blue" th:text="${msg.sender.username}">user</span>
+                        <p class="text" th:text="${msg.content}">Message text goes here...</p>
+                        <p class="message-time" th:text="${#temporals.format(msg.getTimestamp(), 'HH:mm')}"
+                              th:classappend="${#authentication.name == msg.sender.username} ? 'w3-right' : 'w3-left'">00:00</p>
+                    </div>
                 </div>
             </div>
         </div>

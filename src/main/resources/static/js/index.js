@@ -82,7 +82,16 @@ function renderNewMessage(message) {
     textParagraph.className = "text";
     textParagraph.innerText = message.content;
 
+    var timeParagraph = document.createElement("p");
+    var timeClass = isMe ? " w3-right" : " w3-left";
+    timeParagraph.className = "message-time" + timeClass;
+    const d = new Date();
+    const hours = String(d.getHours()).padStart(2, "0");
+    const minutes = String(d.getMinutes()).padStart(2, "0");
+    timeParagraph.innerText = hours + ":" + minutes;
+
     messageBox.appendChild(textParagraph);
+    messageBox.appendChild(timeParagraph);
     messageRow.appendChild(messageBox);
     messagesArea.appendChild(messageRow);
 

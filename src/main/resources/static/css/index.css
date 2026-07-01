@@ -1,3 +1,16 @@
+/* RESPONSIVE BREAKPOINT FOR MOBILE */
+@media (max-width: 992px) {
+    .sidebar {
+        position: fixed !important; /* Overlays on top of the chat area */
+        top: 55px;
+        left: 0;
+        display: none; /* Controlled by JavaScript toggle */
+    }
+    .chat-window {
+        margin-left: 0; /* Uses full screen width on mobile */
+    }
+}
+
 html, body {
     height: 100%;
     margin: 0;
@@ -41,19 +54,6 @@ html, body {
     margin-left: 260px;
 }
 
-/* RESPONSIVE BREAKPOINT FOR MOBILE */
-@media (max-width: 992px) {
-    .sidebar {
-        position: fixed !important; /* Overlays on top of the chat area */
-        top: 55px;
-        left: 0;
-        display: none; /* Controlled by JavaScript toggle */
-    }
-    .chat-window {
-        margin-left: 0; /* Uses full screen width on mobile */
-    }
-}
-
 .messages-area {
     flex: 1;
     overflow-y: auto;
@@ -76,10 +76,46 @@ html, body {
 .message-row.received .message-box { border-top-left-radius: 2px; }
 .message-row.sent .message-box { border-top-right-radius: 2px; }
 .message-box p { margin: 5px 0 0 0; }
+
 .username { font-size: 0.85em; font-weight: bold; display: block; }
+
+.message-time {
+    font-size: 10px;
+}
 
 .input-bar {
     height: 70px;
     display: flex;
     align-items: center;
+}
+
+/* ==========================================================================
+   DATE DIVIDER STYLING
+   ========================================================================== */
+.date-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin: 20px 0;
+    color: #8c8c8c;
+    font-size: 0.8rem;
+    font-weight: 600;
+    user-select: none;
+}
+
+/* Draws the left line */
+.date-divider::before {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e0e0e0;
+    margin-right: 15px;
+}
+
+/* Draws the right line */
+.date-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e0e0e0;
+    margin-left: 15px;
 }
